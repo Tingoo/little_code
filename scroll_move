@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>scroll</title>
+    <style>
+        body {
+            background: url("img/bg.jpg") no-repeat center;
+            height: 790px;
+            width: auto;
+        }
+        #adv {
+            background: url("img/2.jpg");
+            height: 300px;
+            width: 300px;
+            top: 30px;
+            position: absolute;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="adv" onmousedown="mouseDown(event)" onmousemove="mouseMove(this,event)" onmouseup="mouseUp()"></div>
+<script>
+    var flag;
+    var offsetX;
+    var offsetY;
+    var advInfo;
+    var tops;
+    var tip;
+    var topInfo;
+    function mouseDown(e) {
+        flag = true;
+        offsetX = e.offsetX;
+        offsetY = e.offsetY;
+
+    }
+    function mouseMove(obj, e) {
+        if (flag) {
+            obj.style.top = e.clientY - offsetY + "px";
+            obj.style.left = e.clientX - offsetX + "px";
+            tip = false;
+        }
+    }
+    function mouseUp() {
+        flag = false;
+    }
+    window.onscroll = scroll;
+    function scroll() {
+        if (!tip) {
+            advInfo = document.getElementById("adv");
+            tops = getDefaultAttribute(advInfo, "top");
+            topInfo = parseInt(tops);
+        }
+        tip = true;
+        advInfo.style.top = (topInfo + parseInt(document.documentElement.scrollTop || document.body.scrollTop)) + "px";
+        /*javascript scrollTop 获取滚动条相对于其顶部的偏移*/
+    }
+    function getDefaultAttribute(obj, attribute) {
+        return obj.currentStyle ? obj.currentStyle[attribute] : document.defaultView.getComputedStyle(obj, false)[attribute];
+    }
+</script>
+</body>
+</html>
